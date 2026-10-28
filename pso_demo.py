@@ -12,8 +12,8 @@ from matplotlib.animation import FuncAnimation, PillowWriter
 
 SAVE_GIF = False          # 改成 True 会额外保存 gif 文件
 FPS = 15
-N_ITER = 100
-N_PARTICLES = 50
+N_ITER = 200
+N_PARTICLES = 80
 
 # ============================================================
 # PSO 核心
@@ -156,9 +156,9 @@ def seg_hits_obstacle(p0, p1, grid, n=20):
     t = np.linspace(0, 1, n)
     xs = p0[0] + t * (p1[0] - p0[0])
     ys = p0[1] + t * (p1[1] - p0[1])
-    ix = np.clip(np.round(xs).astype(int), 0, grid.shape[0] - 1)
-    iy = np.clip(np.round(ys).astype(int), 0, grid.shape[1] - 1)
-    return bool(np.any(grid[ix, iy] == 1))
+    iy = np.clip(np.round(ys).astype(int), 0, grid.shape[0] - 1)   # row = y
+    ix = np.clip(np.round(xs).astype(int), 0, grid.shape[1] - 1)   # col = x
+    return bool(np.any(grid[iy, ix] == 1))
 
 def make_path_fitness(grid):
     def fitness(particle):

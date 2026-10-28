@@ -135,13 +135,17 @@ END = (GRID_N - 1, GRID_N - 1)
 def build_grid(seed=42):
     rng = np.random.default_rng(seed)
     grid = np.zeros((GRID_N, GRID_N), dtype=int)
+    # 中心 5x5 大方块，挡住对角直线路径，迫使路径绕上方或下方
+    grid[8:13, 8:13] = 1
     keep_clear = {(0, 0), (1, 0), (0, 1),
                   (GRID_N - 1, GRID_N - 1), (GRID_N - 2, GRID_N - 1), (GRID_N - 1, GRID_N - 2)}
     placed = 0
-    while placed < 45:
+    while placed < 25:
         i = rng.integers(0, GRID_N)
         j = rng.integers(0, GRID_N)
         if (i, j) in keep_clear:
+            continue
+        if 7 <= i <= 13 and 7 <= j <= 13:
             continue
         if grid[i, j] == 0:
             grid[i, j] = 1
